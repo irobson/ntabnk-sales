@@ -1,6 +1,6 @@
 package com.ntabnk.sales.application.converters;
 
-import com.ntabnk.sales.domain.Item;
+import com.ntabnk.sales.domain.SaleItem;
 import com.ntabnk.sales.domain.Sale;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ public class SaleLineConverter implements LineConverter<Sale> {
     public Sale convert(String[] data) {
         return Sale.builder()
                 .id(data[0])
-                .items(Arrays.stream(cleanUp(data[1]).split(LINE_BREAKER))
+                .saleItems(Arrays.stream(cleanUp(data[1]).split(LINE_BREAKER))
                         .map(item -> item.split(COLUMN_BREAKER))
                         .map(SaleLineConverter::toItem)
                         .collect(Collectors.toList()))
@@ -26,8 +26,8 @@ public class SaleLineConverter implements LineConverter<Sale> {
                 .build();
     }
 
-    private static Item toItem(String[] data) {
-        return Item.builder()
+    private static SaleItem toItem(String[] data) {
+        return SaleItem.builder()
                 .id(Long.valueOf(data[0]))
                 .quantity(Integer.valueOf(data[1]))
                 .price(new BigDecimal(data[2]))

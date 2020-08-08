@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Component
@@ -20,6 +19,7 @@ import java.util.Map;
 public class SalesFileInputHandler {
     private static final String COLUMN_BREAKER = "ç";
     public static final int EXPECTED_LENGTH = 3;
+    public static final String LINE_BREAKER = "\n";
 
     private Map<String, LineConverter> lineConverterMap = new HashMap<>();
 
@@ -41,9 +41,10 @@ public class SalesFileInputHandler {
     }
 
     @Handler
-    public SalesFileRaw handle(List<String> lines) {
+    public SalesFileRaw handle(String body) {
+        String[] lines = body.split(LINE_BREAKER);
         SalesFileRaw salesFileRaw = new SalesFileRaw();
-        lines.stream()
+        Arrays.stream(lines)
                 .map(line -> line.split(COLUMN_BREAKER))
                 .filter(array -> validate(array))
                 .map(array -> convert(array))

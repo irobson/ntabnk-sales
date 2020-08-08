@@ -1,17 +1,19 @@
 package com.ntabnk.sales.infrastructure.camel.routes;
 
 import org.apache.camel.builder.RouteBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SalesFileRouter extends RouteBuilder {
 
-    public static final String LINE_BREAKER = "\n";
+    @Value("${file.in.dir}")
+    private String fileInput;
 
     @Override
     public void configure() throws Exception {
-        from("file:/home/robson/Development/test?move=.done")
-                .split(body().tokenize(LINE_BREAKER))
+        from(String.format("file:%s?move=.done", fileInput))
+                .convertBodyTo(String.class)
                 .to("bean:salesFileInputHandler")
                 .to("bean:salesFileAggregatorHandler")
                 .to("bean:salesFileOutputHandler");
