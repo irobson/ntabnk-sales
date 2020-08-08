@@ -17,10 +17,9 @@ import java.util.Map;
 @Component
 @Slf4j
 public class SalesFileInputHandler {
-    private static final String COLUMN_BREAKER = "ç";
     public static final int EXPECTED_LENGTH = 3;
     public static final String LINE_BREAKER = "\n";
-
+    private static final String COLUMN_BREAKER = "ç";
     private Map<String, LineConverter> lineConverterMap = new HashMap<>();
 
     private SalespersonLineConverter salespersonLineConverter;
@@ -34,7 +33,7 @@ public class SalesFileInputHandler {
     }
 
     @PostConstruct
-    private void init() {
+    void init() {
         lineConverterMap.put("001", salespersonLineConverter);
         lineConverterMap.put("002", customerLineConverter);
         lineConverterMap.put("003", saleLineConverter);

@@ -1,5 +1,5 @@
 package com.ntabnk.sales.application.converters;
 
 public interface LineConverter<T> {
-    T convert(String [] data);
+    T convert(String[] data);
 }

@@ -27,7 +27,7 @@ public class SalesFileAggregatorHandler {
     }
 
 
-    String getBestSaleId(List<Sale> sales) {
+    private String getBestSaleId(List<Sale> sales) {
         if (CollectionUtils.isEmpty(sales)) {
             log.warn("No sales found.");
             return null;
@@ -36,7 +36,7 @@ public class SalesFileAggregatorHandler {
         return sales.get(0).getId();
     }
 
-    String getWorstSalesperson(List<Sale> sales) {
+    private String getWorstSalesperson(List<Sale> sales) {
         if (CollectionUtils.isEmpty(sales)) {
             log.warn("No sales found.");
             return null;
