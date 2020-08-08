@@ -2,6 +2,7 @@ package com.ntabnk.sales.application;
 
 import com.ntabnk.sales.application.exception.ApplicationException;
 import com.ntabnk.sales.domain.SalesFileResult;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.apache.camel.component.file.GenericFile;
@@ -15,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 @Component
+@Slf4j
 public class SalesFileOutputHandler {
 
     @Value("${file.out.dir}")
@@ -32,6 +34,7 @@ public class SalesFileOutputHandler {
         final String resultFile = fileOutput + File.separator + fileName;
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(resultFile))) {
             writer.write(salesFileResult.formattedResult());
+            log.info("File {} is available with all the results!", resultFile);
         } catch (IOException e) {
             throw new ApplicationException(String.format("Cannot create output file for: ", fileName), e);
         }
