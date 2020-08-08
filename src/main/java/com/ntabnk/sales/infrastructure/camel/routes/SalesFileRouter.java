@@ -13,10 +13,12 @@ public class SalesFileRouter extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from(String.format("file:%s?move=.done", fileInput))
+                .log("Processing: ${exchange.exchangeId}")
                 .convertBodyTo(String.class)
                 .to("bean:salesFileInputHandler")
                 .to("bean:salesFileAggregatorHandler")
-                .to("bean:salesFileOutputHandler");
+                .to("bean:salesFileOutputHandler")
+                .log("Finished: ${exchange.exchangeId}");
     }
 
 }

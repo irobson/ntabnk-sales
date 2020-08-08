@@ -31,7 +31,7 @@ public class SalesFileOutputHandler {
     private void generateResultFile(SalesFileResult salesFileResult, String fileName) {
         final String resultFile = fileOutput + File.separator + fileName;
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(resultFile))) {
-            writer.write(salesFileResult.toString());
+            writer.write(salesFileResult.formattedResult());
         } catch (IOException e) {
             throw new ApplicationException(String.format("Cannot create output file for: ", fileName), e);
         }

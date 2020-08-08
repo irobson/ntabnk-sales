@@ -10,10 +10,8 @@ public class SalesFileResult {
     private String bestSaleId;
     private String worstSalesperson;
 
-    @Override
-    public String toString() {
+    public String formattedResult() {
         return new StringBuilder()
-                .append("Result: \n")
                 .append("Customers size: ")
                 .append(customersSize)
                 .append(", ")
