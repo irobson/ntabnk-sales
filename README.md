@@ -12,12 +12,10 @@ Spring-boot
 
 # Settings
 
-Please, change the `application.properties` file accordingly in order to define the `in` as well the `out` folder.
+Please, change the `application.properties` file in order to define the `in` as well the `out` folder.
 
 # Running
 
-`gradle build`  
-`java -jar app.jar`  
-
-should be enough
-
+Ensure you have Java 11 installed in your local environment.  
+Use the embedded `gradlew` accordingly to your environment to `clean` and `build` the project.  
+Then  `java -jar <app>.jar`  
