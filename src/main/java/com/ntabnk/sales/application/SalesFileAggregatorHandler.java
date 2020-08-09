@@ -41,12 +41,12 @@ public class SalesFileAggregatorHandler {
             log.warn("No sales found.");
             return null;
         }
-        Map<String, BigDecimal> salesPersonSaleAmountMap = new HashMap<>();
+        Map<String, BigDecimal> totalSalesMap = new HashMap<>();
         sales.forEach(sale -> {
-            salesPersonSaleAmountMap.merge(sale.getSalespersonName().toUpperCase(), sale.total(), BigDecimal::add);
+            totalSalesMap.merge(sale.getSalespersonName().toUpperCase(), sale.total(), BigDecimal::add);
         });
 
-        final Map<String, BigDecimal> sortedByTotal = salesPersonSaleAmountMap.entrySet()
+        final Map<String, BigDecimal> sortedByTotal = totalSalesMap.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
