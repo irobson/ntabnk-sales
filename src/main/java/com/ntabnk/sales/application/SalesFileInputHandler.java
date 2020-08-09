@@ -4,7 +4,10 @@ import com.ntabnk.sales.application.converters.CustomerLineConverter;
 import com.ntabnk.sales.application.converters.LineConverter;
 import com.ntabnk.sales.application.converters.SaleLineConverter;
 import com.ntabnk.sales.application.converters.SalespersonLineConverter;
+import com.ntabnk.sales.domain.Customer;
+import com.ntabnk.sales.domain.Sale;
 import com.ntabnk.sales.domain.SalesFileRaw;
+import com.ntabnk.sales.domain.Salesperson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Handler;
 import org.springframework.stereotype.Component;
@@ -13,6 +16,7 @@ import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiFunction;
 
 @Component
 @Slf4j
@@ -20,7 +24,19 @@ public class SalesFileInputHandler {
     public static final int EXPECTED_LENGTH = 3;
     public static final String LINE_BREAKER = "\n";
     private static final String COLUMN_BREAKER = "ç";
+
+    private BiFunction<SalesFileRaw, Customer, Boolean> addCustomer =
+            (salesFileRaw, customer) -> salesFileRaw.add(customer);
+
+    private BiFunction<SalesFileRaw, Sale, Boolean> addSale =
+            (salesFileRaw, sale) -> salesFileRaw.add(sale);
+
+    private BiFunction<SalesFileRaw, Salesperson, Boolean> addSalesperson =
+            (salesFileRaw, salesperson) -> salesFileRaw.add(salesperson);
+
     private Map<String, LineConverter> lineConverterMap = new HashMap<>();
+    private Map<Class, BiFunction> salesFileRawMap = new HashMap<>();
+
 
     private SalespersonLineConverter salespersonLineConverter;
     private CustomerLineConverter customerLineConverter;
@@ -37,6 +53,10 @@ public class SalesFileInputHandler {
         lineConverterMap.put("001", salespersonLineConverter);
         lineConverterMap.put("002", customerLineConverter);
         lineConverterMap.put("003", saleLineConverter);
+
+        salesFileRawMap.put(Customer.class, addCustomer);
+        salesFileRawMap.put(Sale.class, addSale);
+        salesFileRawMap.put(Salesperson.class, addSalesperson);
     }
 
     @Handler
@@ -47,7 +67,7 @@ public class SalesFileInputHandler {
                 .map(line -> line.split(COLUMN_BREAKER))
                 .filter(array -> validate(array))
                 .map(array -> convert(array))
-                .forEach(salesFileRaw::add);
+                .forEach(element -> this.addToSalesFileRaw(element, salesFileRaw));
         return salesFileRaw;
     }
 
@@ -65,6 +85,12 @@ public class SalesFileInputHandler {
             return false;
         }
         return true;
+    }
+
+    private void addToSalesFileRaw(Object object, SalesFileRaw salesFileRaw) {
+        if (this.salesFileRawMap.containsKey(object.getClass())) {
+            this.salesFileRawMap.get(object.getClass()).apply(salesFileRaw, object);
+        }
     }
 
 }

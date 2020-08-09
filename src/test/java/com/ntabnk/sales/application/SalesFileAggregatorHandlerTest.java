@@ -16,7 +16,7 @@ public class SalesFileAggregatorHandlerTest {
     private final SalespersonLineConverter salespersonLineConverter = new SalespersonLineConverter();
 
     @Test
-    public void testHandler() {
+    public void shouldHandleValidSalesFileRaw() {
         SalesFileRaw salesFileRaw = new SalesFileRaw();
         salesFileRaw.add(saleLineConverter.convert("10ç[1-10-100,2-30-2.50,3-40-3.10]çPedro".split("ç")));
         salesFileRaw.add(saleLineConverter.convert("10ç[1-10-100,2-30-2.00,3-40-3.10]çRobson".split("ç")));

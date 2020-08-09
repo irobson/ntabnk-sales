@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SalespersonLineConverterTest {
 
     @Test
-    public void testConvert() {
+    public void shouldConvertValidLine() {
         String[] data = "1234567891234çPedroç50000".split("ç");
         Salesperson salesperson = new SalespersonLineConverter().convert(data);
         assertThat(salesperson).isNotNull();

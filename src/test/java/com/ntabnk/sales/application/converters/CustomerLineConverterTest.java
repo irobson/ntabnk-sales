@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CustomerLineConverterTest {
 
     @Test
-    public void testConversion() {
+    public void shouldConvertValidLine() {
         String[] data = "2345675434544345çJose da SilvaçRural".split("ç");
         Customer customer = new CustomerLineConverter().convert(data);
         assertThat(customer).isNotNull();

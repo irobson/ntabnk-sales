@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SaleLineConverterTest {
     @Test
-    public void testConvert() {
+    public void shouldConvertValidLine() {
         String[] data = "10ç[1-2-0.1]çRobson".split("ç");
         Sale sale = new SaleLineConverter().convert(data);
         assertThat(sale).isNotNull();

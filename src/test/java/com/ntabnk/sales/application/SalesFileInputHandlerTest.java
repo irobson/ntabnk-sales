@@ -15,7 +15,7 @@ public class SalesFileInputHandlerTest {
     private final SalespersonLineConverter salespersonLineConverter = new SalespersonLineConverter();
 
     @Test
-    public void testHandler() {
+    public void shouldHandleValidInputBody() {
         SalesFileInputHandler salesFileInputHandler = new SalesFileInputHandler(salespersonLineConverter,
                 customerLineConverter, saleLineConverter);
         salesFileInputHandler.init();
