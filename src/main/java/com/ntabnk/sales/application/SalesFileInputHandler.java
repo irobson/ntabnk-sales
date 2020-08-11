@@ -21,8 +21,8 @@ import java.util.function.BiFunction;
 @Component
 @Slf4j
 public class SalesFileInputHandler {
-    public static final int EXPECTED_LENGTH = 3;
-    public static final String LINE_BREAKER = "\n";
+    private static final int EXPECTED_LENGTH = 3;
+    private static final String LINE_BREAKER = "\n";
     private static final String COLUMN_BREAKER = "ç";
 
     private BiFunction<SalesFileRaw, Customer, Boolean> addCustomer =
