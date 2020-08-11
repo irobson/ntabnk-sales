@@ -36,7 +36,7 @@ public class SalesFileOutputHandler {
             writer.write(salesFileResult.formattedResult());
             log.info("File {} is available with all the results!", resultFile);
         } catch (IOException e) {
-            throw new ApplicationException(String.format("Cannot create output file for: ", fileName), e);
+            throw new ApplicationException(String.format("Cannot create output file for: %s", fileName), e);
         }
     }
 
